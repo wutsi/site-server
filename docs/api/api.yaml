@@ -1,0 +1,230 @@
+openapi: 3.0.0
+info:
+  title: Wutsi Site API
+  description: This api provide information about the Sites and their configuration
+  version: 1.0.0
+servers:
+  - url: 'https://wutsi-site-service-test.herokuapp.com'
+    description: Sandbox
+  - url: 'https://wutsi-site-service-prod.herokuapp.com'
+    description: Production
+paths:
+  '/v1/site/{id}':
+    get:
+      operationId: get
+      summary: Return the information about a given site
+      parameters:
+        - in: path
+          name: id
+          description: ID of the site
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSiteResponse'
+      tags:
+        - Site
+    post:
+      operationId: update
+      summary: Update a Site
+      description: |
+        Update a site information
+      parameters:
+        - in: path
+          name: id
+          description: ID of the site
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSiteRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSiteResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+        - Site
+  '/v1/site/{id}/attributes/{urn}':
+    post:
+      operationId: setAttribute
+      summary: Update a site attribute
+      description: |
+        Update a site attribute.
+        After the attribute is updated, the event `urn:event:wutsi:site:updated` will be fired.
+      parameters:
+        - in: path
+          name: id
+          description: ID of the site
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: urn
+          description: URN of the attribute
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetAttributeRequest'
+      responses:
+        '200':
+          description: Success
+      tags:
+        - Site
+  /v1/sites:
+    post:
+      operationId: create
+      summary: Create a new Site
+      description: |
+        Create a new site.
+        After the site is created, the event `urn:event:wutsi:site:created` will be fired.
+      requestBody:
+        description: Site request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSiteRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSiteResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+        - Site
+components:
+  schemas:
+    GetSiteResponse:
+      type: object
+      properties:
+        site:
+          type: object
+          $ref: '#/components/schemas/Site'
+    Site:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: ZeSite
+        domainName:
+          type: string
+          example: zesite.com
+        displayName:
+          type: string
+          example: ZeSite
+        websiteUrl:
+          type: string
+          format: url
+          example: 'https://www.zesite.com'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attribute'
+    Attribute:
+      type: object
+      properties:
+        urn:
+          type: string
+          nullable: false
+          example: 'urn:attribute:wutsi:test:foo'
+        value:
+          type: string
+          nullable: false
+          example: bar
+    UpdateSiteRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ZeSite
+        domainName:
+          type: string
+          example: zesite.com
+        displayName:
+          type: string
+          example: ZeSite
+      required:
+        - name
+        - domainName
+    UpdateSiteResponse:
+      type: object
+      properties:
+        siteId:
+          type: integer
+          format: int64
+    SetAttributeRequest:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: true
+    CreateSiteRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ZeSite
+        domainName:
+          type: string
+          example: zesite.com
+        displayName:
+          type: string
+          example: ZeSite
+      required:
+        - name
+        - domainName
+    CreateSiteResponse:
+      type: object
+      properties:
+        siteId:
+          type: integer
+          format: int64
+    ErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          nullable: false
+        description:
+          type: string
+          nullable: false
