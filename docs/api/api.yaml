@@ -1,7 +1,13 @@
 openapi: 3.0.0
 info:
   title: Wutsi Site API
-  description: This api provide information about the Sites and their configuration
+  description: |
+    This API manages the different sites manages by the Wutsi Platform.
+    The API offer the following functionalities:
+    - Registering new sites
+    - Updating site informations
+    - Managing the configuration of each sites
+    This API give to the Platform the capability of multi-tenancy.
   version: 1.0.0
 servers:
   - url: 'https://wutsi-site-service-test.herokuapp.com'
@@ -165,7 +171,7 @@ components:
         urn:
           type: string
           nullable: false
-          example: 'urn:attribute:wutsi:test:foo'
+          example: 'urn:setting:wutsi:test:foo'
         value:
           type: string
           nullable: false
