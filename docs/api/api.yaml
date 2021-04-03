@@ -167,13 +167,22 @@ components:
             $ref: '#/components/schemas/Attribute'
     Attribute:
       type: object
+      description: |
+        Attribute of a site.
+        Attributes are used to store the site configuration
       properties:
         urn:
           type: string
           nullable: false
-          example: 'urn:setting:wutsi:test:foo'
+          description: |
+            URN of the attribute.
+            The format should be urn:attribute:wutsi:<domain>:<name> where:
+            - <domain> is the application domain
+            - <name> is the name of the attribute
+          example: 'urn:attribute:wutsi:test:foo'
         value:
           type: string
+          description: Value of the attribute
           nullable: false
           example: bar
     UpdateSiteRequest:
