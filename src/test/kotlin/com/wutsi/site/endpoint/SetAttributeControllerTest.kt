@@ -10,6 +10,7 @@ import com.wutsi.site.event.EventType
 import com.wutsi.site.event.UpdatedEventPayload
 import com.wutsi.stream.EventStream
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,7 +55,7 @@ internal class SetAttributeControllerTest {
     }
 
     @Test
-    fun `update attribute saved to the DB`() {
+    fun `update attribute`() {
         val request = SetAttributeRequest(
             value = "Long value of the attribute"
         )
@@ -65,28 +66,55 @@ internal class SetAttributeControllerTest {
         val site = siteDao.findById(1L).get()
         val attr = attrDao.findBySiteAndUrn(site, urn).get()
         assertEquals(request.value, attr.value)
-    }
-
-    @Test
-    fun `update attribute fire UPDATED event`() {
-        val request = SetAttributeRequest(
-            value = "Long value of the attribute"
-        )
-        val urn = "urn:attribute:wutsi:attr1"
-        val response = rest.postForEntity(url, request, Any::class.java, "1", urn)
-        kotlin.test.assertEquals(OK, response.statusCode)
 
         verify(eventStream).publish(EventType.UPDATED.urn, UpdatedEventPayload(1, urn))
+
+        verify(cache).evict(1L)
     }
 
     @Test
-    fun `update attribute evict site from cache`() {
+    fun `delete attribute when value if empty`() {
         val request = SetAttributeRequest(
-            value = "Long value of the attribute"
+            value = ""
         )
-        val urn = "urn:attribute:wutsi:attr1"
-        val response = rest.postForEntity(url, request, Any::class.java, "1", urn)
-        kotlin.test.assertEquals(OK, response.statusCode)
+        val urn = "urn:attribute:wutsi:to-empty"
+        rest.postForEntity(url, request, Any::class.java, "2", urn)
+
+        val site = siteDao.findById(2L).get()
+        val attr = attrDao.findBySiteAndUrn(site, urn)
+        assertFalse(attr.isPresent)
+
+        verify(eventStream).publish(EventType.UPDATED.urn, UpdatedEventPayload(2, urn))
+
+        verify(cache).evict(2L)
+    }
+
+    @Test
+    fun `delete attribute when value if null`() {
+        val request = SetAttributeRequest(
+            value = null
+        )
+        val urn = "urn:attribute:wutsi:to-null"
+        rest.postForEntity(url, request, Any::class.java, "2", urn)
+
+        val site = siteDao.findById(2L).get()
+        val attr = attrDao.findBySiteAndUrn(site, urn)
+        assertFalse(attr.isPresent)
+    }
+
+    @Test
+    fun `attr attribute`() {
+        val request = SetAttributeRequest(
+            value = "Yo"
+        )
+        val urn = "urn:attribute:wutsi:add-me"
+        rest.postForEntity(url, request, Any::class.java, "1", urn)
+
+        val site = siteDao.findById(1L).get()
+        val attr = attrDao.findBySiteAndUrn(site, urn).get()
+        assertEquals(request.value, attr.value)
+
+        verify(eventStream).publish(EventType.UPDATED.urn, UpdatedEventPayload(1, urn))
 
         verify(cache).evict(1L)
     }

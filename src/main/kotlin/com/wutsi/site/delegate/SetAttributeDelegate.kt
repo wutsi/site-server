@@ -7,7 +7,6 @@ import com.wutsi.site.entity.AttributeEntity
 import com.wutsi.site.event.EventType.UPDATED
 import com.wutsi.site.event.UpdatedEventPayload
 import com.wutsi.stream.EventStream
-import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
 
@@ -17,10 +16,6 @@ public class SetAttributeDelegate(
     private val attributeDao: AttributeRepository,
     private val eventStream: EventStream
 ) {
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger(UpdateDelegate::class.java)
-    }
-
     @CacheEvict(value = ["default"], key = "#id")
     public fun invoke(
         id: Long,
