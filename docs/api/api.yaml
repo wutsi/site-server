@@ -10,9 +10,9 @@ info:
     This API give to the Platform the capability of multi-tenancy.
   version: 1.0.0
 servers:
-  - url: 'https://wutsi-site-service-test.herokuapp.com'
+  - url: 'https://wutsi-site-test.herokuapp.com'
     description: Sandbox
-  - url: 'https://wutsi-site-service-prod.herokuapp.com'
+  - url: 'https://wutsi-site-prod.herokuapp.com'
     description: Production
 paths:
   '/v1/site/{id}':
@@ -63,12 +63,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSiteResponse'
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
       tags:
         - Site
   '/v1/site/{id}/attributes/{urn}':
@@ -125,12 +119,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateSiteResponse'
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
       tags:
         - Site
 components:
@@ -233,13 +221,3 @@ components:
         siteId:
           type: integer
           format: int64
-    ErrorResponse:
-      type: object
-      properties:
-        type:
-          type: string
-          format: uri
-          nullable: false
-        description:
-          type: string
-          nullable: false
