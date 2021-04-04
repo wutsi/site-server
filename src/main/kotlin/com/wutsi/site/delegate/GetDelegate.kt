@@ -35,8 +35,6 @@ public class GetDelegate(
     private fun websiteUrl(domainName: String): String =
         if (domainName == "localhost" || domainName == "127.0.0.1")
             "http://$domainName"
-        else if (domainName.startsWith("www."))
-            "https://$domainName"
         else
-            "https://www.$domainName"
+            "https://$domainName"
 }
