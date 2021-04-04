@@ -21,6 +21,7 @@ public class GetDelegate(
                 name = site.name,
                 displayName = site.displayName,
                 domainName = site.domainName,
+                websiteUrl = websiteUrl(site.domainName),
                 attributes = site.attributes.map {
                     Attribute(
                         urn = it.urn,
@@ -30,4 +31,12 @@ public class GetDelegate(
             )
         )
     }
+
+    private fun websiteUrl(domainName: String): String =
+        if (domainName == "localhost" || domainName == "127.0.0.1")
+            "http://$domainName"
+        else if (domainName.startsWith("www."))
+            "https://$domainName"
+        else
+            "https://www.$domainName"
 }
