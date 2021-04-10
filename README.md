@@ -34,6 +34,11 @@ This api used for managing site information
         <servers>
             ...
             <server>
+              <id>wutsi-tracing</id>
+              <username>${env.GITUB_USER}</username>
+              <password>${env.GITHUB_TOKEN}</password>
+            </server>
+            <server>
               <id>wutsi-spring-memcached</id>
               <username>${env.GITUB_USER}</username>
               <password>${env.GITHUB_TOKEN}</password>
