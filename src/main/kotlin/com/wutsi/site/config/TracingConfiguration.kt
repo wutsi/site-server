@@ -2,6 +2,8 @@ package com.wutsi.site.config
 
 import com.wutsi.tracing.RequestTracingContext
 import com.wutsi.tracing.TracingContextProvider
+import com.wutsi.tracing.TracingFilter
+import com.wutsi.tracing.TracingRequestInterceptor
 import feign.RequestInterceptor
 import org.springframework.beans.factory.`annotation`.Autowired
 import org.springframework.context.ApplicationContext
