@@ -40,7 +40,7 @@ jobs:
       - name: Heroku-Deploy-Test
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_TEST}}
-          HEROKU_APP: wutsi-site-test
+          HEROKU_APP: site-site-test
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}
@@ -57,7 +57,7 @@ jobs:
       - name: Heroku-Deploy-Prod
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_PROD}}
-          HEROKU_APP: wutsi-site-prod
+          HEROKU_APP: site-site-prod
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}

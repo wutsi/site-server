@@ -1,12 +1,22 @@
-java -jar ../wutsi-codegen/target/wutsi-codegen-0.0.27.jar server \
-    -in https://wutsi-openapi.s3.amazonaws.com/site_api.yaml \
+#/bin/sh
+
+CODEGEN_VERSION="0.0.27"
+CODEGEN_JAR=~/wutsi-codegen/wutsi-codegen-${CODEGEN_VERSION}.jar
+
+API_NAME=site
+API_URL=https://wutsi-openapi.s3.amazonaws.com/${API_NAME}_api.yaml
+GITHUB_USER=wutsi
+
+echo "Generating code from ${API_URL}"
+java -jar ${CODEGEN_JAR} server \
+    -in ${API_URL} \
     -out . \
-    -name site \
-    -package com.wutsi.site \
+    -name ${API_NAME} \
+    -package com.wutsi.${API_NAME} \
     -jdk 11 \
-    -github_user wutsi \
-    -github_project site-server \
-    -heroku wutsi-site \
+    -github_user ${GITHUB_USER} \
+    -github_project ${API_NAME}-sdk-kotlin \
+    -heroku ${API_NAME}-site \
     -service_cache \
     -service_logger \
     -service_database \
