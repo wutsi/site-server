@@ -1,4 +1,4 @@
-java -jar ../wutsi-codegen/target/wutsi-codegen-0.0.24.jar server \
+java -jar ../wutsi-codegen/target/wutsi-codegen-0.0.27.jar server \
     -in https://wutsi-openapi.s3.amazonaws.com/site_api.yaml \
     -out . \
     -name site \
