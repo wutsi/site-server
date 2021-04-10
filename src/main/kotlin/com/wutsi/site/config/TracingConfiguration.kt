@@ -2,8 +2,6 @@ package com.wutsi.site.config
 
 import com.wutsi.tracing.RequestTracingContext
 import com.wutsi.tracing.TracingContextProvider
-import com.wutsi.tracing.TracingFilter
-import com.wutsi.tracing.TracingRequestInterceptor
 import feign.RequestInterceptor
 import org.springframework.beans.factory.`annotation`.Autowired
 import org.springframework.context.ApplicationContext
@@ -20,7 +18,7 @@ public class TracingConfiguration(
     private val context: ApplicationContext
 ) {
     @Bean
-    public fun tracingFilter(): Filter = TracingFilter(tracingContextProvider())
+    public fun tracingFilter(): Filter = com.wutsi.tracing.TracingFilter(tracingContextProvider())
 
     @Bean
     public fun requestTracingContext(): RequestTracingContext = RequestTracingContext(request)
@@ -30,5 +28,5 @@ public class TracingConfiguration(
 
     @Bean
     public fun tracingRequestInterceptor(): RequestInterceptor =
-        TracingRequestInterceptor("site-server", tracingContextProvider())
+        com.wutsi.tracing.TracingRequestInterceptor("site-server", tracingContextProvider())
 }
