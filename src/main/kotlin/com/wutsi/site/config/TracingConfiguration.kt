@@ -9,7 +9,6 @@ import org.springframework.context.`annotation`.Bean
 import org.springframework.context.`annotation`.Configuration
 import javax.servlet.Filter
 import javax.servlet.http.HttpServletRequest
-import kotlin.collections.List
 
 @Configuration
 public class TracingConfiguration(
@@ -28,7 +27,6 @@ public class TracingConfiguration(
     public fun tracingContextProvider(): TracingContextProvider = TracingContextProvider(context)
 
     @Bean
-    public fun requestInterceptors(): List<RequestInterceptor> = listOf(
+    public fun tracingRequestInterceptor(): RequestInterceptor =
         TracingRequestInterceptor("site-server", tracingContextProvider())
-    )
 }
