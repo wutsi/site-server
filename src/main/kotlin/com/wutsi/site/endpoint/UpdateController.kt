@@ -14,7 +14,7 @@ import kotlin.Long
 public class UpdateController(
     private val `delegate`: UpdateDelegate
 ) {
-    @PostMapping("/v1/site/{id}")
+    @PostMapping("/v1/sites/{id}")
     public fun invoke(
         @PathVariable(name = "id") id: Long,
         @Valid @RequestBody

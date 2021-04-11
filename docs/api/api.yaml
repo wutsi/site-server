@@ -15,7 +15,7 @@ servers:
   - url: 'https://wutsi-site-prod.herokuapp.com'
     description: Production
 paths:
-  '/v1/site/{id}':
+  '/v1/sites/{id}':
     get:
       operationId: get
       summary: Return the information about a given site
@@ -65,7 +65,7 @@ paths:
                 $ref: '#/components/schemas/UpdateSiteResponse'
       tags:
         - Site
-  '/v1/site/{id}/attributes/{urn}':
+  '/v1/sites/{id}/attributes/{urn}':
     post:
       operationId: setAttribute
       summary: Update a site attribute

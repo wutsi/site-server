@@ -50,7 +50,7 @@ internal class SetAttributeControllerTest {
 
     @BeforeEach
     fun setUp() {
-        url = "http://127.0.0.1:$port/v1/site/{id}/attributes/{urn}"
+        url = "http://127.0.0.1:$port/v1/sites/{id}/attributes/{urn}"
         doReturn(cache).whenever(cacheManager).getCache("default")
     }
 

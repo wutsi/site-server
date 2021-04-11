@@ -40,7 +40,7 @@ internal class GetControllerTest {
 
     @BeforeEach
     fun setUp() {
-        url = "http://127.0.0.1:$port/v1/site/{id}"
+        url = "http://127.0.0.1:$port/v1/sites/{id}"
         doReturn(cache).whenever(cacheManager).getCache("default")
     }
 

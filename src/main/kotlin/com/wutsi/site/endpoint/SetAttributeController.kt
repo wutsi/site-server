@@ -14,7 +14,7 @@ import kotlin.String
 public class SetAttributeController(
     private val `delegate`: SetAttributeDelegate
 ) {
-    @PostMapping("/v1/site/{id}/attributes/{urn}")
+    @PostMapping("/v1/sites/{id}/attributes/{urn}")
     public fun invoke(
         @PathVariable(name = "id") id: Long,
         @PathVariable(name = "urn") urn: String,

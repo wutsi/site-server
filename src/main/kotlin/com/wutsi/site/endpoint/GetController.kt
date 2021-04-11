@@ -11,6 +11,6 @@ import kotlin.Long
 public class GetController(
     private val `delegate`: GetDelegate
 ) {
-    @GetMapping("/v1/site/{id}")
+    @GetMapping("/v1/sites/{id}")
     public fun invoke(@PathVariable(name = "id") id: Long): GetSiteResponse = delegate.invoke(id)
 }
