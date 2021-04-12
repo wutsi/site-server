@@ -1,12 +1,10 @@
 [![](https://github.com/wutsi/site-server/actions/workflows/master.yml/badge.svg)](https://github.com/wutsi/site-server/actions/workflows/master.yml)
-[![](https://github.com/wutsi/site-server/actions/workflows/pull_request.yml/badge.svg)](https://github.com/wutsi/site-server/actions/workflows/pull_request.yml)
 
 [![JDK](https://img.shields.io/badge/jdk-11-brightgreen.svg)](https://jdk.java.net/11/)
 [![](https://img.shields.io/badge/maven-3.6-brightgreen.svg)](https://maven.apache.org/download.cgi)
 ![](https://img.shields.io/badge/language-kotlin-blue.svg)
-[![](https://img.shields.io/badge/version-0.0.21-blue.svg)](https://jdk.java.net/11/)
 
-This api used for managing site information
+This API manages the different sites manages by the Wutsi Platform.&#10;The API offer the following functionalities:&#10;- Registering new sites&#10;- Updating site informations&#10;- Managing the configuration of each sites&#10;This API give to the Platform the capability of multi-tenancy.&#10;
 
 # Installation Prerequisites
 ## Database Setup
@@ -34,18 +32,8 @@ This api used for managing site information
         <servers>
             ...
             <server>
-              <id>wutsi-tracing</id>
-              <username>${env.GITUB_USER}</username>
-              <password>${env.GITHUB_TOKEN}</password>
-            </server>
-            <server>
-              <id>wutsi-spring-memcached</id>
-              <username>${env.GITUB_USER}</username>
-              <password>${env.GITHUB_TOKEN}</password>
-            </server>
-            <server>
-              <id>wutsi-stream-rabbitmq</id>
-              <username>${env.GITUB_USER}</username>
+              <id>github</id>
+              <username>${env.GITHUB_USER}</username>
               <password>${env.GITHUB_TOKEN}</password>
             </server>
         </servers>
@@ -73,3 +61,4 @@ That's it... the API is up and running! Start sending requests :-)
 
 # Links
 - [API](https://wutsi.github.io/site-server/api/)
+- [Documentation](docs/)
