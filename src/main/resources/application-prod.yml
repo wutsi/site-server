@@ -17,8 +17,6 @@ memcached:
   servers: ${MEMCACHIER_SERVERS}
 rabbitmq:
   enabled: true
-  url: ${CLOUDAMQP_URL}
-  thread-pool-size: 8
 
 logging:
   pattern:
