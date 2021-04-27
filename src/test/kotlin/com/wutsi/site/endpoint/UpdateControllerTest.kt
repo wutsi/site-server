@@ -55,7 +55,9 @@ internal class UpdateControllerTest {
         val request = UpdateSiteRequest(
             name = "wutsI",
             displayName = "Wutsi",
-            domainName = "wutsi.cUm"
+            domainName = "wutsi.cUm",
+            language = "fr",
+            currency = "XFA"
         )
         val response = rest.postForEntity(url, request, UpdateSiteResponse::class.java, "1")
         assertEquals(OK, response.statusCode)
@@ -63,7 +65,9 @@ internal class UpdateControllerTest {
         val site = dao.findById(1L).get()
         assertEquals(request.name.toLowerCase(), site.name)
         assertEquals(request.displayName, site.displayName)
-        assertEquals(site.domainName.toLowerCase(), site.domainName)
+        assertEquals(request.domainName.toLowerCase(), site.domainName)
+        assertEquals(request.language, site.language)
+        assertEquals(request.currency, site.currency)
     }
 
     @Test
@@ -71,7 +75,9 @@ internal class UpdateControllerTest {
         val request = UpdateSiteRequest(
             name = "wutsI",
             displayName = "Wutsi",
-            domainName = "wutsi.cUm"
+            domainName = "wutsi.cUm",
+            language = "fr",
+            currency = "XFA"
         )
         val response = rest.postForEntity(url, request, UpdateSiteResponse::class.java, "1")
 
@@ -83,7 +89,9 @@ internal class UpdateControllerTest {
         val request = UpdateSiteRequest(
             name = "wutsI",
             displayName = "Wutsi",
-            domainName = "wutsi.cUm"
+            domainName = "wutsi.cUm",
+            language = "fr",
+            currency = "XFA"
         )
         rest.postForEntity(url, request, UpdateSiteResponse::class.java, "1")
 

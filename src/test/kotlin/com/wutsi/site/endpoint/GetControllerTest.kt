@@ -55,6 +55,8 @@ internal class GetControllerTest {
         assertEquals("Foo Site", site.displayName)
         assertEquals("foo.com", site.domainName)
         assertEquals("https://foo.com", site.websiteUrl)
+        assertEquals("fr", site.language)
+        assertEquals("XAF", site.currency)
 
         val attrs = site.attributes.sortedBy { it.urn }
         assertEquals(3, attrs.size)

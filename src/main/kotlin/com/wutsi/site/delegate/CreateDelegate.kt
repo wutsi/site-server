@@ -19,7 +19,9 @@ public class CreateDelegate(
             SiteEntity(
                 name = request.name.toLowerCase(),
                 displayName = request.displayName,
-                domainName = request.domainName.toLowerCase()
+                domainName = request.domainName.toLowerCase(),
+                language = request.language.toLowerCase(),
+                currency = request.currency.toUpperCase()
             )
         )
 

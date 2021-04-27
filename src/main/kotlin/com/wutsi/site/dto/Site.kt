@@ -10,5 +10,7 @@ public data class Site(
     public val domainName: String = "",
     public val displayName: String = "",
     public val websiteUrl: String = "",
+    public val language: String = "",
+    public val currency: String = "",
     public val attributes: List<Attribute> = emptyList()
 )

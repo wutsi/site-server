@@ -55,7 +55,9 @@ internal class CreateControllerTest {
         val request = CreateSiteRequest(
             name = "wutsI",
             displayName = "Wutsi",
-            domainName = "wutsi.cOm"
+            domainName = "wutsi.cOm",
+            language = "fr",
+            currency = "XFA"
         )
         val response = rest.postForEntity(url, request, CreateSiteResponse::class.java)
         assertEquals(OK, response.statusCode)
@@ -63,7 +65,9 @@ internal class CreateControllerTest {
         val site = dao.findById(response.body.siteId).get()
         assertEquals(request.name.toLowerCase(), site.name)
         assertEquals(request.displayName, site.displayName)
-        assertEquals(site.domainName.toLowerCase(), site.domainName)
+        assertEquals(request.domainName.toLowerCase(), site.domainName)
+        assertEquals(request.language, site.language)
+        assertEquals(request.currency, site.currency)
     }
 
     @Test
@@ -71,7 +75,9 @@ internal class CreateControllerTest {
         val request = CreateSiteRequest(
             name = "wutsi",
             displayName = "Wutsi",
-            domainName = "wutsi.cOm"
+            domainName = "wutsi.cOm",
+            language = "fr",
+            currency = "XFA"
         )
         val response = rest.postForEntity(url, request, CreateSiteResponse::class.java)
 

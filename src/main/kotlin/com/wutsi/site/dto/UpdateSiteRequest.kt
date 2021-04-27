@@ -8,5 +8,9 @@ public data class UpdateSiteRequest(
     public val name: String = "",
     @get:NotBlank
     public val domainName: String = "",
-    public val displayName: String = ""
+    public val displayName: String = "",
+    @get:NotBlank
+    public val language: String = "",
+    @get:NotBlank
+    public val currency: String = ""
 )

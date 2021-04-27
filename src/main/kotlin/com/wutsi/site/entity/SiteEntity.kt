@@ -23,6 +23,9 @@ data class SiteEntity(
     @Column(name = "domain_name")
     var domainName: String = "",
 
+    var language: String = "",
+    var currency: String = "",
+
     @OneToMany(mappedBy = "site")
     val attributes: List<AttributeEntity> = emptyList()
 )

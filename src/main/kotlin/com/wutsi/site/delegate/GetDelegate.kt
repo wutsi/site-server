@@ -22,6 +22,8 @@ public class GetDelegate(
                 displayName = site.displayName,
                 domainName = site.domainName,
                 websiteUrl = websiteUrl(site.domainName),
+                language = site.language,
+                currency = site.currency,
                 attributes = site.attributes.map {
                     Attribute(
                         urn = it.urn,
