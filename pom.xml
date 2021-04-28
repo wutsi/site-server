@@ -33,7 +33,7 @@
     <klint.version>0.40.0</klint.version>
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
     <hikari-cp.version>4.0.3</hikari-cp.version>
-    <postgresql.version>42.2.19</postgresql.version>
+    <postgresql.version>42.2.20</postgresql.version>
     <flyway.version>7.7.0</flyway.version>
     <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
     <wutsi-spring-memcached.version>1.1.0</wutsi-spring-memcached.version>
