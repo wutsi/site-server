@@ -34,7 +34,7 @@
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
     <hikari-cp.version>4.0.3</hikari-cp.version>
     <postgresql.version>42.2.19</postgresql.version>
-    <flyway.version>7.7.0</flyway.version>
+    <flyway.version>7.8.2</flyway.version>
     <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
     <wutsi-spring-memcached.version>1.1.0</wutsi-spring-memcached.version>
     <wutsi-stream-rabbitmq.version>1.5.0</wutsi-stream-rabbitmq.version>
