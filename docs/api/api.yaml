@@ -34,6 +34,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetSiteResponse'
+      security:
+        - api_key:
+            - site
       tags:
         - Site
     post:
@@ -63,6 +66,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateSiteResponse'
+      security:
+        - api_key:
+            - site.admin
       tags:
         - Site
   '/v1/sites/{id}/attributes/{urn}':
@@ -96,6 +102,9 @@ paths:
       responses:
         '200':
           description: Success
+      security:
+        - api_key:
+            - site.admin
       tags:
         - Site
   /v1/sites:
@@ -120,6 +129,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchSiteResponse'
+      security:
+        - api_key:
+            - site
       tags:
         - Site
     post:
@@ -142,9 +154,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateSiteResponse'
+      security:
+        - api_key:
+            - site.admin
       tags:
         - Site
 components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: Authorization
   schemas:
     SearchSiteResponse:
       type: object

@@ -6,20 +6,19 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.jdbc.Sql
-import org.springframework.web.client.RestTemplate
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(value = ["/db/clean.sql", "/db/SearchController.sql"])
-public class SearchControllerTest {
+public class SearchControllerTest : ControllerTestBase() {
     @LocalServerPort
     public val port: Int = 0
 
-    private val rest: RestTemplate = RestTemplate()
-
     @Test
     fun search() {
-        val response = rest.getForEntity("http://127.0.0.1:$port/v1/sites", SearchSiteResponse::class.java)
+        login("site")
+
+        val response = get("http://127.0.0.1:$port/v1/sites", SearchSiteResponse::class.java)
 
         assertEquals(HttpStatus.OK, response.statusCode)
 

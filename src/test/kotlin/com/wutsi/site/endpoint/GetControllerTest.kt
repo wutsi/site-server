@@ -1,52 +1,28 @@
 package com.wutsi.site.endpoint
 
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
-import com.wutsi.site.dto.Attribute
 import com.wutsi.site.dto.GetSiteResponse
-import com.wutsi.site.dto.Site
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.web.server.LocalServerPort
-import org.springframework.cache.Cache
-import org.springframework.cache.CacheManager
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.OK
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.web.client.HttpStatusCodeException
-import org.springframework.web.client.RestTemplate
-import kotlin.test.Ignore
-import kotlin.test.fail
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(value = ["/db/clean.sql", "/db/GetController.sql"])
-internal class GetControllerTest {
+internal class GetControllerTest : ControllerTestBase() {
     @LocalServerPort
     private val port = 0
 
-    private lateinit var url: String
-
-    private val rest: RestTemplate = RestTemplate()
-
-    @MockBean
-    lateinit var cacheManager: CacheManager
-
-    @MockBean
-    lateinit var cache: Cache
-
-    @BeforeEach
-    fun setUp() {
-        url = "http://127.0.0.1:$port/v1/sites/{id}"
-        doReturn(cache).whenever(cacheManager).getCache("default")
-    }
-
     @Test
     fun `return site from DB`() {
-        val response = rest.getForEntity(url, GetSiteResponse::class.java, "1")
+        login("site")
+
+        val url = "http://127.0.0.1:$port/v1/sites/1"
+        val response = get(url, GetSiteResponse::class.java)
         assertEquals(OK, response.statusCode)
 
         val site = response.body.site
@@ -72,43 +48,33 @@ internal class GetControllerTest {
     }
 
     @Test
-    fun `cache returned value from DB`() {
-        val response = rest.getForEntity(url, GetSiteResponse::class.java, "1")
-        assertEquals(OK, response.statusCode)
+    fun `return 404 with invalid siteId`() {
+        login("site")
 
-        verify(cache).put(1L, response.body)
-    }
-
-    @Test
-    @Ignore
-    fun `return site from Cache`() {
-        val value = GetSiteResponse(
-            Site(
-                id = 555L,
-                name = "Yo",
-                displayName = "Man",
-                domainName = "yo.man",
-                attributes = listOf(
-                    Attribute("urn:attribute:wutsi:attr1", "value1")
-                )
-            )
-        )
-        doReturn(value).whenever(cache).get(555L, GetSiteResponse::class.java)
-
-        val response = rest.getForEntity(url, GetSiteResponse::class.java, "555")
-        assertEquals(OK, response.statusCode)
-
-        val site = response.body.site
-        assertEquals(value.site, site)
-    }
-
-    @Test
-    fun `return 404 with invalid ID`() {
-        try {
-            rest.getForEntity(url, GetSiteResponse::class.java, "999")
-            fail()
-        } catch (ex: HttpStatusCodeException) {
-            assertEquals(HttpStatus.NOT_FOUND, ex.statusCode)
+        val url = "http://127.0.0.1:$port/v1/sites/000"
+        val ex = assertThrows<HttpStatusCodeException> {
+            get(url, GetSiteResponse::class.java)
         }
+        assertEquals(HttpStatus.NOT_FOUND, ex.statusCode)
+    }
+
+    @Test
+    fun `anonymous cannot get site`() {
+        val url = "http://127.0.0.1:$port/v1/sites/000"
+        val ex = assertThrows<HttpStatusCodeException> {
+            get(url, GetSiteResponse::class.java)
+        }
+        assertEquals(HttpStatus.FORBIDDEN, ex.statusCode)
+    }
+
+    @Test
+    fun `user with invalid scope cannot get site`() {
+        login("xxx")
+
+        val url = "http://127.0.0.1:$port/v1/sites/000"
+        val ex = assertThrows<HttpStatusCodeException> {
+            get(url, GetSiteResponse::class.java)
+        }
+        assertEquals(HttpStatus.FORBIDDEN, ex.statusCode)
     }
 }

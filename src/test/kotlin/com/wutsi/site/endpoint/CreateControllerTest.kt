@@ -11,26 +11,26 @@ import com.wutsi.site.event.EventType
 import com.wutsi.stream.EventStream
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.cache.Cache
 import org.springframework.cache.CacheManager
+import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.OK
 import org.springframework.test.context.jdbc.Sql
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.HttpStatusCodeException
 import kotlin.test.assertEquals
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(value = ["/db/clean.sql"])
-internal class CreateControllerTest {
+internal class CreateControllerTest : ControllerTestBase() {
     @LocalServerPort
     private val port = 0
 
     private lateinit var url: String
-
-    private val rest: RestTemplate = RestTemplate()
 
     @Autowired
     lateinit var dao: SiteRepository
@@ -45,13 +45,17 @@ internal class CreateControllerTest {
     lateinit var eventStream: EventStream
 
     @BeforeEach
-    fun setUp() {
+    override fun setUp() {
+        super.setUp()
+
         url = "http://127.0.0.1:$port/v1/sites"
         doReturn(cache).whenever(cacheManager).getCache("default")
     }
 
     @Test
     fun `create a site is stored in DB`() {
+        login("site.admin")
+
         val request = CreateSiteRequest(
             name = "wutsI",
             displayName = "Wutsi",
@@ -59,7 +63,7 @@ internal class CreateControllerTest {
             language = "fr",
             currency = "XFA"
         )
-        val response = rest.postForEntity(url, request, CreateSiteResponse::class.java)
+        val response = post(url, request, CreateSiteResponse::class.java)
         assertEquals(OK, response.statusCode)
 
         val site = dao.findById(response.body.siteId).get()
@@ -72,6 +76,8 @@ internal class CreateControllerTest {
 
     @Test
     fun `create a site fires CREATED event`() {
+        login("site.admin")
+
         val request = CreateSiteRequest(
             name = "wutsi",
             displayName = "Wutsi",
@@ -79,8 +85,39 @@ internal class CreateControllerTest {
             language = "fr",
             currency = "XFA"
         )
-        val response = rest.postForEntity(url, request, CreateSiteResponse::class.java)
+        val response = post(url, request, CreateSiteResponse::class.java)
 
         verify(eventStream).publish(EventType.CREATED.urn, CreatedEventPayload(response.body.siteId))
+    }
+
+    @Test
+    fun `anonymous cannot create site`() {
+        val request = CreateSiteRequest(
+            name = "wutsi",
+            displayName = "Wutsi",
+            domainName = "wutsi.cOm",
+            language = "fr",
+            currency = "XFA"
+        )
+        val ex = assertThrows<HttpStatusCodeException> {
+            post(url, request, CreateSiteResponse::class.java)
+        }
+        assertEquals(HttpStatus.FORBIDDEN, ex.statusCode)
+    }
+
+    @Test
+    fun `user with invalid scope cannot create site`() {
+        login("site")
+        val request = CreateSiteRequest(
+            name = "wutsi",
+            displayName = "Wutsi",
+            domainName = "wutsi.cOm",
+            language = "fr",
+            currency = "XFA"
+        )
+        val ex = assertThrows<HttpStatusCodeException> {
+            post(url, request, CreateSiteResponse::class.java)
+        }
+        assertEquals(HttpStatus.FORBIDDEN, ex.statusCode)
     }
 }

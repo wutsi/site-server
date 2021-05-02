@@ -3,6 +3,7 @@ package com.wutsi.site.endpoint
 import com.wutsi.site.`delegate`.UpdateDelegate
 import com.wutsi.site.dto.UpdateSiteRequest
 import com.wutsi.site.dto.UpdateSiteResponse
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.`annotation`.PathVariable
 import org.springframework.web.bind.`annotation`.PostMapping
 import org.springframework.web.bind.`annotation`.RequestBody
@@ -15,6 +16,7 @@ public class UpdateController(
     private val `delegate`: UpdateDelegate
 ) {
     @PostMapping("/v1/sites/{id}")
+    @PreAuthorize(value = "hasAuthority('site.admin')")
     public fun invoke(
         @PathVariable(name = "id") id: Long,
         @Valid @RequestBody
