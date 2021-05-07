@@ -6,8 +6,8 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.site.dao.SiteRepository
 import com.wutsi.site.dto.CreateSiteRequest
 import com.wutsi.site.dto.CreateSiteResponse
-import com.wutsi.site.event.CreatedEventPayload
-import com.wutsi.site.event.EventType
+import com.wutsi.site.event.SiteEventPayload
+import com.wutsi.site.event.SiteEventType
 import com.wutsi.stream.EventStream
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -87,7 +87,7 @@ internal class CreateControllerTest : ControllerTestBase() {
         )
         val response = post(url, request, CreateSiteResponse::class.java)
 
-        verify(eventStream).publish(EventType.CREATED.urn, CreatedEventPayload(response.body.siteId))
+        verify(eventStream).publish(SiteEventType.SITE_CREATED.urn, SiteEventPayload(response.body.siteId))
     }
 
     @Test

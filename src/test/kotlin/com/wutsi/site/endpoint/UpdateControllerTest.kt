@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.verify
 import com.wutsi.site.dao.SiteRepository
 import com.wutsi.site.dto.UpdateSiteRequest
 import com.wutsi.site.dto.UpdateSiteResponse
-import com.wutsi.site.event.EventType
-import com.wutsi.site.event.UpdatedEventPayload
+import com.wutsi.site.event.SiteEventPayload
+import com.wutsi.site.event.SiteEventType
 import com.wutsi.stream.EventStream
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -69,7 +69,7 @@ internal class UpdateControllerTest : ControllerTestBase() {
         val url = "http://127.0.0.1:$port/v1/sites/1"
         val response = post(url, request, UpdateSiteResponse::class.java)
 
-        verify(eventStream).publish(EventType.UPDATED.urn, UpdatedEventPayload(response.body.siteId))
+        verify(eventStream).publish(SiteEventType.SITE_UPDATED.urn, SiteEventPayload(response.body.siteId))
     }
 
     @Test

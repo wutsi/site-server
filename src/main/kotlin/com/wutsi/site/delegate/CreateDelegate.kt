@@ -4,8 +4,8 @@ import com.wutsi.site.dao.SiteRepository
 import com.wutsi.site.dto.CreateSiteRequest
 import com.wutsi.site.dto.CreateSiteResponse
 import com.wutsi.site.entity.SiteEntity
-import com.wutsi.site.event.CreatedEventPayload
-import com.wutsi.site.event.EventType
+import com.wutsi.site.event.SiteEventPayload
+import com.wutsi.site.event.SiteEventType
 import com.wutsi.stream.EventStream
 import org.springframework.stereotype.Service
 
@@ -25,7 +25,7 @@ public class CreateDelegate(
             )
         )
 
-        eventStream.publish(EventType.CREATED.urn, CreatedEventPayload(site.id!!))
+        eventStream.publish(SiteEventType.SITE_CREATED.urn, SiteEventPayload(site.id!!))
 
         return CreateSiteResponse(
             siteId = site.id

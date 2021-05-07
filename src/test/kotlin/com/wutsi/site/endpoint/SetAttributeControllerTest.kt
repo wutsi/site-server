@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.verify
 import com.wutsi.site.dao.AttributeRepository
 import com.wutsi.site.dao.SiteRepository
 import com.wutsi.site.dto.SetAttributeRequest
-import com.wutsi.site.event.EventType
-import com.wutsi.site.event.UpdatedEventPayload
+import com.wutsi.site.event.SiteEventPayload
+import com.wutsi.site.event.SiteEventType
 import com.wutsi.stream.EventStream
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -51,7 +51,7 @@ internal class SetAttributeControllerTest : ControllerTestBase() {
         val attr = attrDao.findBySiteAndUrn(site, urn).get()
         assertEquals(request.value, attr.value)
 
-        verify(eventStream).publish(EventType.UPDATED.urn, UpdatedEventPayload(1, urn))
+        verify(eventStream).publish(SiteEventType.SITE_UPDATED.urn, SiteEventPayload(1))
     }
 
     @Test
@@ -69,7 +69,7 @@ internal class SetAttributeControllerTest : ControllerTestBase() {
         val attr = attrDao.findBySiteAndUrn(site, urn)
         assertFalse(attr.isPresent)
 
-        verify(eventStream).publish(EventType.UPDATED.urn, UpdatedEventPayload(2, urn))
+        verify(eventStream).publish(SiteEventType.SITE_UPDATED.urn, SiteEventPayload(2))
     }
 
     @Test
@@ -103,7 +103,7 @@ internal class SetAttributeControllerTest : ControllerTestBase() {
         val attr = attrDao.findBySiteAndUrn(site, urn).get()
         assertEquals(request.value, attr.value)
 
-        verify(eventStream).publish(EventType.UPDATED.urn, UpdatedEventPayload(1, urn))
+        verify(eventStream).publish(SiteEventType.SITE_UPDATED.urn, SiteEventPayload(1))
     }
 
     @Test

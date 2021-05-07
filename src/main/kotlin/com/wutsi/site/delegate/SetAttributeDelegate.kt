@@ -4,8 +4,8 @@ import com.wutsi.site.dao.AttributeRepository
 import com.wutsi.site.dao.SiteRepository
 import com.wutsi.site.dto.SetAttributeRequest
 import com.wutsi.site.entity.AttributeEntity
-import com.wutsi.site.event.EventType.UPDATED
-import com.wutsi.site.event.UpdatedEventPayload
+import com.wutsi.site.event.SiteEventPayload
+import com.wutsi.site.event.SiteEventType.SITE_UPDATED
 import com.wutsi.stream.EventStream
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
@@ -23,7 +23,7 @@ public class SetAttributeDelegate(
         request: SetAttributeRequest
     ) {
         save(id, urn, request)
-        eventStream.publish(UPDATED.urn, UpdatedEventPayload(id, urn))
+        eventStream.publish(SITE_UPDATED.urn, SiteEventPayload(id))
     }
 
     private fun save(id: Long, urn: String, request: SetAttributeRequest) {

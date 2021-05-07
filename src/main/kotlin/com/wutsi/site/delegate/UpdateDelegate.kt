@@ -3,7 +3,7 @@ package com.wutsi.site.`delegate`
 import com.wutsi.site.dao.SiteRepository
 import com.wutsi.site.dto.UpdateSiteRequest
 import com.wutsi.site.dto.UpdateSiteResponse
-import com.wutsi.site.event.UpdatedEventPayload
+import com.wutsi.site.event.SiteEventPayload
 import com.wutsi.stream.EventStream
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
@@ -23,7 +23,7 @@ public class UpdateDelegate(
         site.currency = request.currency.toUpperCase()
         dao.save(site)
 
-        eventStream.publish(com.wutsi.site.event.EventType.UPDATED.urn, UpdatedEventPayload(id))
+        eventStream.publish(com.wutsi.site.event.SiteEventType.SITE_UPDATED.urn, SiteEventPayload(id))
 
         return UpdateSiteResponse(
             siteId = id
