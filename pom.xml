@@ -40,6 +40,7 @@
     <wutsi-spring-memcached.version>1.1.0</wutsi-spring-memcached.version>
     <wutsi-stream-rabbitmq.version>1.7.0</wutsi-stream-rabbitmq.version>
     <wutsi-tracing.version>1.4.0</wutsi-tracing.version>
+    <wutsi-site-sdk.version>1.8.0</wutsi-site-sdk.version>
   </properties>
 
   <dependencies>
@@ -48,6 +49,12 @@
       <artifactId>wutsi-tracing</artifactId>
       <version>${wutsi-tracing.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.wutsi.site</groupId>
+      <artifactId>site-sdk-kotlin</artifactId>
+      <version>${wutsi-site-sdk.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
