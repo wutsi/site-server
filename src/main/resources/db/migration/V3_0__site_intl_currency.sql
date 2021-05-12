@@ -1,0 +1,1 @@
+ALTER TABLE T_SITE ADD COLUMN international_currency VARCHAR(3) NOT NULL DEFAULT '';

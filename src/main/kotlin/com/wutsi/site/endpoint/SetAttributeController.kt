@@ -8,6 +8,8 @@ import org.springframework.web.bind.`annotation`.PostMapping
 import org.springframework.web.bind.`annotation`.RequestBody
 import org.springframework.web.bind.`annotation`.RestController
 import javax.validation.Valid
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 import kotlin.Long
 import kotlin.String
 
@@ -16,10 +18,10 @@ public class SetAttributeController(
     private val `delegate`: SetAttributeDelegate
 ) {
     @PostMapping("/v1/sites/{id}/attributes/{urn}")
-    @PreAuthorize(value = "hasAuthority('site.admin')")
+    @PreAuthorize(value = "hasAuthority('site-manage')")
     public fun invoke(
-        @PathVariable(name = "id") id: Long,
-        @PathVariable(name = "urn") urn: String,
+        @PathVariable(name = "id") @NotNull id: Long,
+        @PathVariable(name = "urn") @NotBlank urn: String,
         @Valid @RequestBody request: SetAttributeRequest
     ) {
         delegate.invoke(id, urn, request)

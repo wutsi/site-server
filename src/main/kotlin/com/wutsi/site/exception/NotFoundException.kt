@@ -1,4 +1,4 @@
-package com.wutsi.error.exception
+package com.wutsi.site.exception
 
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.web.bind.annotation.ResponseStatus

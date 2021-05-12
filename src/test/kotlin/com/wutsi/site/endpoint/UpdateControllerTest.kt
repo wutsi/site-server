@@ -34,15 +34,9 @@ internal class UpdateControllerTest : ControllerTestBase() {
 
     @Test
     fun `update a site save into the DB`() {
-        login("site.admin")
+        login("site-manage")
 
-        val request = UpdateSiteRequest(
-            name = "wutsI",
-            displayName = "Wutsi",
-            domainName = "wutsi.cUm",
-            language = "fr",
-            currency = "XFA"
-        )
+        val request = createRequest()
         val url = "http://127.0.0.1:$port/v1/sites/1"
         val response = post(url, request, UpdateSiteResponse::class.java)
         assertEquals(OK, response.statusCode)
@@ -53,19 +47,14 @@ internal class UpdateControllerTest : ControllerTestBase() {
         assertEquals(request.domainName.toLowerCase(), site.domainName)
         assertEquals(request.language, site.language)
         assertEquals(request.currency, site.currency)
+        assertEquals(request.internationalCurrency, site.internationalCurrency)
     }
 
     @Test
     fun `update a site send UPDATE event`() {
-        login("site.admin")
+        login("site-manage")
 
-        val request = UpdateSiteRequest(
-            name = "wutsI",
-            displayName = "Wutsi",
-            domainName = "wutsi.cUm",
-            language = "fr",
-            currency = "XFA"
-        )
+        val request = createRequest()
         val url = "http://127.0.0.1:$port/v1/sites/1"
         val response = post(url, request, UpdateSiteResponse::class.java)
 
@@ -74,13 +63,7 @@ internal class UpdateControllerTest : ControllerTestBase() {
 
     @Test
     fun `anonymous cannot update a site`() {
-        val request = UpdateSiteRequest(
-            name = "wutsI",
-            displayName = "Wutsi",
-            domainName = "wutsi.cUm",
-            language = "fr",
-            currency = "XFA"
-        )
+        val request = createRequest()
         val url = "http://127.0.0.1:$port/v1/sites/1"
         val ex = assertThrows<HttpStatusCodeException> {
             post(url, request, UpdateSiteResponse::class.java)
@@ -92,17 +75,20 @@ internal class UpdateControllerTest : ControllerTestBase() {
     fun `user with invalid cannot update a site`() {
         login("site")
 
-        val request = UpdateSiteRequest(
-            name = "wutsI",
-            displayName = "Wutsi",
-            domainName = "wutsi.cUm",
-            language = "fr",
-            currency = "XFA"
-        )
+        val request = createRequest()
         val url = "http://127.0.0.1:$port/v1/sites/1"
         val ex = assertThrows<HttpStatusCodeException> {
             post(url, request, UpdateSiteResponse::class.java)
         }
         Assertions.assertEquals(FORBIDDEN, ex.statusCode)
     }
+
+    private fun createRequest() = UpdateSiteRequest(
+        name = "wutsI",
+        displayName = "Wutsi",
+        domainName = "wutsi.cUm",
+        language = "fr",
+        currency = "XFA",
+        internationalCurrency = "EUR"
+    )
 }

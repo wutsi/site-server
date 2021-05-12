@@ -36,7 +36,7 @@ paths:
                 $ref: '#/components/schemas/GetSiteResponse'
       security:
         - api_key:
-            - site
+            - site-read
       tags:
         - Site
     post:
@@ -68,7 +68,7 @@ paths:
                 $ref: '#/components/schemas/UpdateSiteResponse'
       security:
         - api_key:
-            - site.admin
+            - site-manage
       tags:
         - Site
   '/v1/sites/{id}/attributes/{urn}':
@@ -104,7 +104,7 @@ paths:
           description: Success
       security:
         - api_key:
-            - site.admin
+            - site-manage
       tags:
         - Site
   /v1/sites:
@@ -131,7 +131,7 @@ paths:
                 $ref: '#/components/schemas/SearchSiteResponse'
       security:
         - api_key:
-            - site
+            - site-read
       tags:
         - Site
     post:
@@ -156,7 +156,7 @@ paths:
                 $ref: '#/components/schemas/CreateSiteResponse'
       security:
         - api_key:
-            - site.admin
+            - site-manage
       tags:
         - Site
 components:
@@ -222,6 +222,11 @@ components:
           format: url
           example: XFA
           description: Default currency code of the site. The code is in the ISO-4217 format
+        internationalCurrency:
+          type: string
+          format: url
+          example: EUR
+          description: Currency to use for international customers. The code is in the ISO-4217 format
         attributes:
           type: array
           items:
@@ -266,11 +271,16 @@ components:
           type: string
           format: url
           example: XFA
+        internationalCurrency:
+          type: string
+          format: url
+          example: EUR
       required:
         - name
         - domainName
         - language
         - currency
+        - internationalCurrency
     UpdateSiteResponse:
       type: object
       properties:
@@ -303,11 +313,16 @@ components:
           type: string
           format: url
           example: XFA
+        internationalCurrency:
+          type: string
+          format: url
+          example: EUR
       required:
         - name
         - domainName
         - language
         - currency
+        - internationalCurrency
     CreateSiteResponse:
       type: object
       properties:

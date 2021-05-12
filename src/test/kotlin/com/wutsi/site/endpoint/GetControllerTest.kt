@@ -19,7 +19,7 @@ internal class GetControllerTest : ControllerTestBase() {
 
     @Test
     fun `return site from DB`() {
-        login("site")
+        login("site-read")
 
         val url = "http://127.0.0.1:$port/v1/sites/1"
         val response = get(url, GetSiteResponse::class.java)
@@ -33,6 +33,7 @@ internal class GetControllerTest : ControllerTestBase() {
         assertEquals("https://foo.com", site.websiteUrl)
         assertEquals("fr", site.language)
         assertEquals("XAF", site.currency)
+        assertEquals("EUR", site.internationalCurrency)
 
         val attrs = site.attributes.sortedBy { it.urn }
         assertEquals(3, attrs.size)
@@ -49,7 +50,7 @@ internal class GetControllerTest : ControllerTestBase() {
 
     @Test
     fun `return 404 with invalid siteId`() {
-        login("site")
+        login("site-read")
 
         val url = "http://127.0.0.1:$port/v1/sites/000"
         val ex = assertThrows<HttpStatusCodeException> {

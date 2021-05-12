@@ -21,6 +21,7 @@ public class UpdateDelegate(
         site.name = request.name.toLowerCase()
         site.language = request.language.toLowerCase()
         site.currency = request.currency.toUpperCase()
+        site.internationalCurrency = request.internationalCurrency.toUpperCase()
         dao.save(site)
 
         eventStream.publish(com.wutsi.site.event.SiteEventType.SITE_UPDATED.urn, SiteEventPayload(id))

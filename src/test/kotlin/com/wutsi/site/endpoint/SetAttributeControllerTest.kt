@@ -37,7 +37,7 @@ internal class SetAttributeControllerTest : ControllerTestBase() {
 
     @Test
     fun `update attribute`() {
-        login("site.admin")
+        login("site-manage")
 
         val request = SetAttributeRequest(
             value = "Long value of the attribute"
@@ -56,7 +56,7 @@ internal class SetAttributeControllerTest : ControllerTestBase() {
 
     @Test
     fun `delete attribute when value if empty`() {
-        login("site.admin")
+        login("site-manage")
 
         val request = SetAttributeRequest(
             value = ""
@@ -74,7 +74,7 @@ internal class SetAttributeControllerTest : ControllerTestBase() {
 
     @Test
     fun `delete attribute when value if null`() {
-        login("site.admin")
+        login("site-manage")
 
         val request = SetAttributeRequest(
             value = null
@@ -90,7 +90,7 @@ internal class SetAttributeControllerTest : ControllerTestBase() {
 
     @Test
     fun `add attribute`() {
-        login("site.admin")
+        login("site-manage")
 
         val request = SetAttributeRequest(
             value = "Yo"

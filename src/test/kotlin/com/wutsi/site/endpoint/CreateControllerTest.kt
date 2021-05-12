@@ -54,15 +54,9 @@ internal class CreateControllerTest : ControllerTestBase() {
 
     @Test
     fun `create a site is stored in DB`() {
-        login("site.admin")
+        login("site-manage")
 
-        val request = CreateSiteRequest(
-            name = "wutsI",
-            displayName = "Wutsi",
-            domainName = "wutsi.cOm",
-            language = "fr",
-            currency = "XFA"
-        )
+        val request = createSite()
         val response = post(url, request, CreateSiteResponse::class.java)
         assertEquals(OK, response.statusCode)
 
@@ -72,19 +66,14 @@ internal class CreateControllerTest : ControllerTestBase() {
         assertEquals(request.domainName.toLowerCase(), site.domainName)
         assertEquals(request.language, site.language)
         assertEquals(request.currency, site.currency)
+        assertEquals(request.internationalCurrency, site.internationalCurrency)
     }
 
     @Test
     fun `create a site fires CREATED event`() {
-        login("site.admin")
+        login("site-manage")
 
-        val request = CreateSiteRequest(
-            name = "wutsi",
-            displayName = "Wutsi",
-            domainName = "wutsi.cOm",
-            language = "fr",
-            currency = "XFA"
-        )
+        val request = createSite()
         val response = post(url, request, CreateSiteResponse::class.java)
 
         verify(eventStream).publish(SiteEventType.SITE_CREATED.urn, SiteEventPayload(response.body.siteId))
@@ -92,13 +81,7 @@ internal class CreateControllerTest : ControllerTestBase() {
 
     @Test
     fun `anonymous cannot create site`() {
-        val request = CreateSiteRequest(
-            name = "wutsi",
-            displayName = "Wutsi",
-            domainName = "wutsi.cOm",
-            language = "fr",
-            currency = "XFA"
-        )
+        val request = createSite()
         val ex = assertThrows<HttpStatusCodeException> {
             post(url, request, CreateSiteResponse::class.java)
         }
@@ -107,17 +90,20 @@ internal class CreateControllerTest : ControllerTestBase() {
 
     @Test
     fun `user with invalid scope cannot create site`() {
-        login("site")
-        val request = CreateSiteRequest(
-            name = "wutsi",
-            displayName = "Wutsi",
-            domainName = "wutsi.cOm",
-            language = "fr",
-            currency = "XFA"
-        )
+        login("site-xxx")
+        val request = createSite()
         val ex = assertThrows<HttpStatusCodeException> {
             post(url, request, CreateSiteResponse::class.java)
         }
         assertEquals(HttpStatus.FORBIDDEN, ex.statusCode)
     }
+
+    private fun createSite() = CreateSiteRequest(
+        name = "wutsi",
+        displayName = "Wutsi",
+        domainName = "wutsi.cOm",
+        language = "fr",
+        currency = "XFA",
+        internationalCurrency = "EUR"
+    )
 }

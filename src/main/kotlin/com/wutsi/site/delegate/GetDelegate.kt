@@ -1,10 +1,10 @@
 package com.wutsi.site.`delegate`
 
-import com.wutsi.error.exception.NotFoundException
 import com.wutsi.site.dao.SiteRepository
 import com.wutsi.site.dto.Attribute
 import com.wutsi.site.dto.GetSiteResponse
 import com.wutsi.site.dto.Site
+import com.wutsi.site.exception.NotFoundException
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
@@ -24,6 +24,7 @@ public class GetDelegate(
                 websiteUrl = websiteUrl(site.domainName),
                 language = site.language,
                 currency = site.currency,
+                internationalCurrency = site.internationalCurrency,
                 attributes = site.attributes.map {
                     Attribute(
                         urn = it.urn,

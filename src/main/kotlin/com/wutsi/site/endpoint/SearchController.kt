@@ -13,7 +13,7 @@ public class SearchController(
     private val `delegate`: SearchDelegate
 ) {
     @GetMapping("/v1/sites")
-    @PreAuthorize(value = "hasAuthority('site')")
+    @PreAuthorize(value = "hasAuthority('site-read')")
     public fun invoke(
         @RequestParam(name = "limit", required = false, defaultValue = "20") limit: Int = 20,
         @RequestParam(name = "offset", required = false, defaultValue = "0") offset: Int = 0

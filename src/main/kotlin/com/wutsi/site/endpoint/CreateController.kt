@@ -14,7 +14,7 @@ public class CreateController(
     private val `delegate`: CreateDelegate
 ) {
     @PostMapping("/v1/sites")
-    @PreAuthorize(value = "hasAuthority('site.admin')")
+    @PreAuthorize(value = "hasAuthority('site-manage')")
     public fun invoke(@Valid @RequestBody request: CreateSiteRequest): CreateSiteResponse =
         delegate.invoke(request)
 }

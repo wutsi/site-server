@@ -12,5 +12,6 @@ public data class Site(
     public val websiteUrl: String = "",
     public val language: String = "",
     public val currency: String = "",
+    public val internationalCurrency: String = "",
     public val attributes: List<Attribute> = emptyList()
 )

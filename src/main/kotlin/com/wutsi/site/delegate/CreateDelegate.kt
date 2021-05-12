@@ -21,7 +21,8 @@ public class CreateDelegate(
                 displayName = request.displayName,
                 domainName = request.domainName.toLowerCase(),
                 language = request.language.toLowerCase(),
-                currency = request.currency.toUpperCase()
+                currency = request.currency.toUpperCase(),
+                internationalCurrency = request.internationalCurrency.toUpperCase()
             )
         )
 

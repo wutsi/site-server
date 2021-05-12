@@ -16,7 +16,7 @@ public class SearchControllerTest : ControllerTestBase() {
 
     @Test
     fun search() {
-        login("site")
+        login("site-read")
 
         val response = get("http://127.0.0.1:$port/v1/sites", SearchSiteResponse::class.java)
 

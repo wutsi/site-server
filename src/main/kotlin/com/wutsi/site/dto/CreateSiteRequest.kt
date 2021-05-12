@@ -12,5 +12,7 @@ public data class CreateSiteRequest(
     @get:NotBlank
     public val language: String = "",
     @get:NotBlank
-    public val currency: String = ""
+    public val currency: String = "",
+    @get:NotBlank
+    public val internationalCurrency: String = ""
 )
