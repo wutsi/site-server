@@ -33,7 +33,7 @@
     <hikari-cp.version>4.0.3</hikari-cp.version>
     <postgresql.version>42.2.20</postgresql.version>
     <flyway.version>7.8.2</flyway.version>
-    <wutsi-platform.version>1.0.0</wutsi-platform.version>
+    <wutsi-platform.version>1.0.1-SNAPSHOT</wutsi-platform.version>
     <!--
         <feign.version>11.2</feign.version>
         <jackson-module-kotlin.version>2.12.3</jackson-module-kotlin.version>
@@ -58,6 +58,13 @@
       <artifactId>kotlin-stdlib</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-reflect</artifactId>
+      <version>${kotlin.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
     <!--
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
