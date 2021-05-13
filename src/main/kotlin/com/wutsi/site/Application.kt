@@ -1,6 +1,7 @@
 package com.wutsi.site
 
 import com.wutsi.platform.EnableWutsiCore
+import com.wutsi.platform.EnableWutsiSecurity
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.scheduling.annotation.EnableAsync
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWutsiCore
+@EnableWutsiSecurity
 public class Application
 
 public fun main(vararg args: String) {
