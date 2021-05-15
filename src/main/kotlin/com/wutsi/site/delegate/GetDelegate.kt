@@ -30,7 +30,7 @@ public class GetDelegate(
                         urn = it.urn,
                         value = it.value
                     )
-                }
+                }.sortedBy { it.urn }
             )
         )
     }
